@@ -1,0 +1,77 @@
+{% extends "base.html" %}
+{% block title %}Gerenciar Tênis | SneakerStore{% endblock %}
+
+{% block content %}
+<section class="form-wrapper" style="max-width:800px">
+    <h2>Gerenciar Tênis</h2>
+
+    <!-- Mensagens -->
+    {% with msgs = get_flashed_messages(with_categories=true) %}
+      {% if msgs %}
+        <ul class="flash-list">
+          {% for cat, msg in msgs %}
+            <li class="flash {{ cat }}">{{ msg }}</li>
+          {% endfor %}
+        </ul>
+      {% endif %}
+    {% endwith %}
+
+    <!-- Form adicionar novo -->
+    <h3>Novo Produto</h3>
+    <form method="POST" enctype="multipart/form-data">
+        <input type="hidden" name="_acao" value="novo">
+        <label>Nome
+            <input type="text" name="nome" required>
+        </label>
+        <label>Preço (R$)
+            <input type="text" name="preco" placeholder="499.90" required>
+        </label>
+        <label>Imagem
+            <input type="file" name="imagem" accept="image/*">
+        </label>
+        <button type="submit" class="btn-primary">Adicionar</button>
+    </form>
+
+    <!-- Lista existente -->
+    <h3 style="margin-top:2rem;">Todos os Produtos</h3>
+    <div class="grid">
+        {% for p in produtos %}
+        <article class="card">
+            {% if p.imagem %}
+                <img src="{{ url_for('static', filename='img/' + p.imagem) }}"
+                     alt="{{ p.nome }}">
+            {% else %}
+                <div style="height:160px;background:#eee;display:flex;
+                            align-items:center;justify-content:center;">
+                    sem foto
+                </div>
+            {% endif %}
+            <form method="POST" action="{{ url_for('editar_produto', prod_id=p.id) }}"
+                  enctype="multipart/form-data">
+                <label>Nome
+                    <input type="text" name="nome" value="{{ p.nome }}" required>
+                </label>
+                <label>Preço
+                    <input type="text" name="preco" value="{{ '%.2f'|format(p.preco) }}" required>
+                </label>
+                <label>Trocar imagem
+                    <input type="file" name="imagem" accept="image/*">
+                </label>
+                <button type="submit" class="btn-primary" style="margin-top:.5rem;">
+                    Salvar
+                </button>
+            </form>
+
+            <form method="POST"
+                  action="{{ url_for('excluir_produto', prod_id=p.id) }}"
+                  onsubmit="return confirm('Excluir {{ p.nome }}?');">
+                <button type="submit" class="btn-danger"
+                        style="margin-top:.5rem;width:100%;">
+                    Excluir
+                </button>
+            </form>
+        </article>
+        {% endfor %}
+    </div>
+</section>
+{% endblock %}

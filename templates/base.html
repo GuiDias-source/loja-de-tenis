@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}Loja de Tênis{% endblock %}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap"
+          rel="stylesheet">
+</head>
+<body>
+    <header>
+        <h1 class="logo">SneakerStore</h1>
+        <nav>
+            <a href="{{ url_for('home') }}">Home</a>
+            {% if session.get('user_id') %}
+                <a href="{{ url_for('produtos') }}">Produtos</a>
+            {% endif %}
+            {% if session.get('user_email') %}
+                <a href="{{ url_for('perfil') }}">Perfil</a>
+                <a href="{{ url_for('logout') }}">Sair</a>
+            {% else %}
+                <a href="{{ url_for('cadastro') }}">Cadastro</a>
+                <a href="{{ url_for('login') }}">Login</a>
+            {% endif %}
+            <!-- futuros links: produtos, contato, etc. -->
+        </nav>
+    </header>
+
+    <main>
+        {% block content %}{% endblock %}
+    </main>
+
+    <footer>
+        <small>&copy; 2025 SneakerStore – Guilherme Dias Nogueira &amp; Felipe Gonzaga (3º INFO)</small>
+    </footer>
+</body>
+</html>

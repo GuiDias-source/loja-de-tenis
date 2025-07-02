@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+{% block title %}Cadastro | SneakerStore{% endblock %}
+
+{% block content %}
+<section class="form-wrapper">
+    <h2>Crie sua conta</h2>
+
+    <!-- Mensagens flash -->
+    {% with msgs = get_flashed_messages(with_categories=true) %}
+      {% if msgs %}
+        <ul class="flash-list">
+          {% for cat, msg in msgs %}
+            <li class="flash {{ cat }}">{{ msg }}</li>
+          {% endfor %}
+        </ul>
+      {% endif %}
+    {% endwith %}
+
+    <form method="POST" autocomplete="off">
+        <label>
+            Nome
+            <input type="text" name="nome" placeholder="Seu nome completo" required>
+        </label>
+
+        <label>
+            E‑mail
+            <input type="email" name="email" placeholder="seu@email.com" required>
+        </label>
+
+        <label>
+            Senha
+            <input type="password" name="senha" placeholder="Crie uma senha" minlength="6" required>
+        </label>
+
+        <button type="submit" class="btn-primary">Cadastrar</button>
+    </form>
+</section>
+{% endblock %}

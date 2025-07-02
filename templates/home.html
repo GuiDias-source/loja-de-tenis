@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+{% block title %}Home | SneakerStore{% endblock %}
+
+{% block content %}
+<section class="hero">
+    <h2>Encontre o par perfeito.</h2>
+    <p>Modelos originais, últimas coleções e ofertas exclusivas.</p>
+    <form class="search-bar" action="#" method="GET">
+        <input type="text" name="q" placeholder="Buscar tênis…" />
+        <button type="submit">Buscar</button>
+    </form>
+</section>
+
+<section class="destaques">
+    <h3>Destaques da semana</h3>
+    <div class="grid">
+        {% for p in produtos %}
+        <article class="card">
+            {% if p.imagem %}
+                <img src="{{ url_for('static', filename='img/' + p.imagem) }}"
+                     alt="Tênis {{ p.nome }}">
+            {% else %}
+                <div style="height:160px;background:#eee;display:flex;
+                            align-items:center;justify-content:center;">
+                    sem foto
+                </div>
+            {% endif %}
+            <h4>{{ p.nome }}</h4>
+            <span class="preco">R$ {{ "%.2f"|format(p.preco) }}</span>
+            <button class="btn-comprar">Comprar</button>
+        </article>
+        {% endfor %}
+    </div>    
+</section>
+{% endblock %}
